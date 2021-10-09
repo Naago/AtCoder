@@ -1,100 +1,20 @@
 ﻿#include <iostream>
 
-int Next(int64_t n, int keta)
+int64_t F(int64_t n, int64_t d, int64_t d0)
 {
-	auto ret = 0;
-	for (auto i = 0; i < keta; i++)
+	int64_t sum = 0;
+	if (n >= d)
 	{
-		ret = n % 10;
-		n /= 10;
-	}
-	return ret;
-}
-
-int Keta(int64_t n)
-{
-	auto ret = 0;
-	while(n >= 10)
-	{
-		n /= 10;
-		++ret;
-	}
-	return ret;
-}
-
-int64_t Pow(int keta)
-{
-	int64_t ret = 1;
-	for (auto i = 0; i < keta; i++)
-	{
-		ret *= 10;
-	}
-	return ret;
-}
-
-// 0 -> 1
-// 1 -> 11 + 1
-// 2 -> 111 + 11 + 1
-int64_t Full(int keta)
-{
-	auto tmp = Pow(keta);
-	int64_t ret = 0;
-	for (auto i = 0; i < keta + 1; i++)
-	{
-		ret += tmp * (i + 1);
-		tmp /= 10;
-	}
-	return ret;
-}
-
-// 0 -> 1
-// 1 -> 11
-// 2 -> 111
-int64_t Full2(int keta)
-{
-	auto tmp = Pow(keta);
-	auto ret = 0;
-
-	while (tmp > 0)
-	{
-		ret += tmp;
-		tmp /= 10;
-	}
-	return ret;
-}
-
-int64_t F(int64_t n, int keta, bool is_plus)
-{
-	const auto base = Pow(keta);
-	if (n >= base * 2)
-	{
-		return Full(keta);
+		const int64_t m = std::min<int64_t>(n, d + d0 - 1);
+		// std::cout << "n: " << n << ", d: " << d << ", d0: " << d0 << ", m: " << m << std::endl; 
+		sum += m - d + 1;
 	}
 
-	// 先頭が1の場合の対応
-	if (keta == 0)
+	if ((d % 10) == 0)
 	{
-		return 1;
+		sum += F(n, d / 10, d0 / 10);
 	}
-
-	auto num = n - base + 1;
-	const auto next = Next(n, keta);
-
-	if (next >= 2)
-	{
-		num += Full2(keta - 1);
-	}
-	else if(next == 1)
-	{
-		num += F(n - base, keta - 1, false);
-	}
-
-	// 下位の分を足す
-	if (is_plus)
-	{
-		num += Full(keta - 1);
-	}
-	return num;
+	return sum;
 }
 
 int main()
@@ -103,9 +23,25 @@ int main()
 	std::cin >> n;
 	// std::cout << n << std::endl;
 
-	const auto keta = Keta(n);
-	// std::cout << keta << std::endl;
+	int64_t sum = 0;
 
-	std::cout << F(n, keta, true) << std::endl;
+	sum += F(n, 1000000000000000, 1000000000000000);
+	sum += F(n, 1100000000000000,  100000000000000);
+	sum += F(n, 1110000000000000,   10000000000000);
+	sum += F(n, 1111000000000000,    1000000000000);
+	sum += F(n, 1111100000000000,     100000000000);
+	sum += F(n, 1111110000000000,      10000000000);
+	sum += F(n, 1111111000000000,       1000000000);
+	sum += F(n, 1111111100000000,        100000000);
+	sum += F(n, 1111111110000000,         10000000);
+	sum += F(n, 1111111111000000,          1000000);
+	sum += F(n, 1111111111100000,           100000);
+	sum += F(n, 1111111111110000,            10000);
+	sum += F(n, 1111111111111000,             1000);
+	sum += F(n, 1111111111111100,              100);
+	sum += F(n, 1111111111111110,               10);
+	sum += F(n, 1111111111111111,                1);
+
+	std::cout << sum << std::endl;
 	return 0;
 }
