@@ -1,5 +1,10 @@
 
 .vscode/
+Debug/
+obj/
+
 *.exe
 *.obj
 *.pdb
+
+*.csproj
