@@ -8,36 +8,21 @@ struct Pos
 
 Pos P[300];
 
-double F0(int i0, int i1)
-{
-	const double d = static_cast<double>(P[i1].y - P[i0].y) / (P[i1].x - P[i0].x);
-	return d;
-}
-
 bool F(int i0, int i1, int i2)
 {
-	// 傾きが無限大？
-	if (P[i0].x == P[i1].x)
-	{
-		if (P[i0].x != P[i2].x)
-		{
-			return true;
-		}
-		return false;
-	}
-	if (P[i0].x == P[i2].x)
-	{
-		if (P[i0].x != P[i1].x)
-		{
-			return true;
-		}
-		return false;
-	}
+	const auto &p0 = P[i0];
+	const auto &p1 = P[i1];
+	const auto &p2 = P[i2];
 
-	const auto d0 = F0(i0, i1);
-	const auto d1 = F0(i0, i2);
-	// const auto GOSA = 0.000000000001;
-	// return ((d0 < (d1 - GOSA)) || (d0 > (d1 + GOSA)));
+	const auto y1 = p1.y - p0.y;
+	const auto x1 = p1.x - p0.x;
+
+	const auto y2 = p2.y - p0.y;
+	const auto x2 = p2.x - p0.x;
+
+	const int64_t d0 = y1 * x2;
+	const int64_t d1 = y2 * x1;
+
 	return (d0 != d1);
 }
 
