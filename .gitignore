@@ -4,6 +4,7 @@ Debug/
 obj/
 
 *.exe
+*.ilk
 *.obj
 *.pdb
 
