@@ -3,30 +3,29 @@
 
 bool F(const std::vector<std::vector<int> > &v0, const std::vector<std::vector<int> > &v1, const std::vector<int> &va, int l)
 {
-	const auto &vv1 = v1[l - 1];
-	if (vv1.empty())
+	if (v1[l - 1].empty())
 	{
 		return true;
 	}
 
-	std::vector<bool> a(vv1.size(), true);
+	auto vv1 = v1[l - 1];
 
-	int cnt = 0;
 	for (auto i = 0; i < l; i++)
 	{
-		for (auto j = 0; j < vv1.size(); j++)
+		auto iter = vv1.begin();
+		while (iter != vv1.end())
 		{
-			if (va[i] != v0[vv1[j]][i])
+			if (va[i] != v0[*iter][i])
 			{
-				if (a[j])
+				if (vv1.size() <= 1)
 				{
-					a[j] = false;
-					if (++cnt >= vv1.size())
-					{
-						return true;	// 一致したものがない
-					}
+					return true;	// 一致したものがない
 				}
+
+				iter = vv1.erase(iter);
+				continue;
 			}
+			iter++;
 		}
 	}
 	return false;	// 一致したものがあった
