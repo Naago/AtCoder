@@ -1,31 +1,35 @@
 ﻿#include <iostream>
 #include <vector>
 
-// bool F0(const std::vector<int> &a, const std::vector<int> &b, int l)
-// {
-// 	for (auto i = 0; i < l; i++)
-// 	{
-// 		if (a[i] != b[i])
-// 		{
-// 			return false;
-// 		}
-// 	}
-// 	return true;
-// }
-
-bool F(int i, const std::vector<std::vector<int> > &v0, const std::vector<std::vector<int> > &v1, const std::vector<int> &va, int l)
+bool F(const std::vector<std::vector<int> > &v0, const std::vector<std::vector<int> > &v1, const std::vector<int> &va, int l)
 {
 	const auto &vv1 = v1[l - 1];
-
-	for (auto j = 0; j < vv1.size(); j++)
+	if (vv1.empty())
 	{
-		const auto &vb = v0[vv1[j]];
-		if (vb == va)
+		return true;
+	}
+
+	std::vector<bool> a(vv1.size(), true);
+
+	int cnt = 0;
+	for (auto i = 0; i < l; i++)
+	{
+		for (auto j = 0; j < vv1.size(); j++)
 		{
-			return false;
+			if (va[i] != v0[vv1[j]][i])
+			{
+				if (a[j])
+				{
+					a[j] = false;
+					if (++cnt >= vv1.size())
+					{
+						return true;	// 一致したものがない
+					}
+				}
+			}
 		}
 	}
-	return true;
+	return false;	// 一致したものがあった
 }
 
 int main()
@@ -51,7 +55,7 @@ int main()
 			std::cin >> v[j];
 		}
 
-		if (F(r, v0, v1, v, l))
+		if (F(v0, v1, v, l))
 		{
 			v1[l - 1].push_back(r);
 			++r;
