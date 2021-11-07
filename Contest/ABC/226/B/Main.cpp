@@ -1,17 +1,17 @@
 ﻿#include <iostream>
 #include <vector>
 
-bool F0(const std::vector<int> &a, const std::vector<int> &b, int l)
-{
-	for (auto i = 0; i < l; i++)
-	{
-		if (a[i] != b[i])
-		{
-			return false;
-		}
-	}
-	return true;
-}
+// bool F0(const std::vector<int> &a, const std::vector<int> &b, int l)
+// {
+// 	for (auto i = 0; i < l; i++)
+// 	{
+// 		if (a[i] != b[i])
+// 		{
+// 			return false;
+// 		}
+// 	}
+// 	return true;
+// }
 
 bool F(int i, const std::vector<std::vector<int> > &v0, const std::vector<std::vector<int> > &v1, const std::vector<int> &va, int l)
 {
@@ -20,7 +20,7 @@ bool F(int i, const std::vector<std::vector<int> > &v0, const std::vector<std::v
 	for (auto j = 0; j < vv1.size(); j++)
 	{
 		const auto &vb = v0[vv1[j]];
-		if (F0(vb, va, l))
+		if (vb == va)
 		{
 			return false;
 		}
